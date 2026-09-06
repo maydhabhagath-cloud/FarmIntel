@@ -1,0 +1,1 @@
+Run npm install before npm test when package-lock.json is not present. GitHub Pages does not install or execute these development dependencies; they are for local/CI validation only.
