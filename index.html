@@ -1,42 +1,118 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>FarmIntel — Smart Market Intelligence for Farmers</title>
+<meta name="description" content="FarmIntel — Smart market intelligence for smallholder farmers. Compare prices, match buyers, and sell smart.">
 <style>
-:root{--g:#16834b;--gd:#0d6037;--gl:#e8f6ee;--ink:#173126;--muted:#6d7d75;--bg:#f5f8f5;--card:#fff;--line:#e2ebe5;--amber:#c98718;--red:#c64b43;--shadow:0 10px 30px rgba(25,65,45,.08)}*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--bg)}button,input,select{font:inherit}button{cursor:pointer}.app{min-height:100vh}.top{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;position:sticky;top:0;z-index:20}.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px}.logo{width:38px;height:38px;border-radius:12px;background:var(--g);display:grid;place-items:center;color:white;font-size:20px}.tag{font-size:11px;color:var(--muted);font-weight:600}.top-right{display:flex;gap:10px;align-items:center}.pill{padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-size:12px;background:#fff}.avatar{width:36px;height:36px;border-radius:50%;background:#d9efe2;color:var(--gd);display:grid;place-items:center;font-weight:800}.layout{display:flex;max-width:1440px;margin:auto}.side{width:240px;background:#fff;border-right:1px solid var(--line);min-height:calc(100vh - 72px);padding:24px 14px;position:sticky;top:72px;align-self:flex-start}.side button{width:100%;border:0;background:transparent;text-align:left;padding:12px 14px;border-radius:10px;color:#65746d;margin:2px 0;font-weight:600}.side button.active,.side button:hover{background:var(--gl);color:var(--gd)}main{flex:1;padding:32px;min-width:0}.hero{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:24px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--g);font-weight:800}.hero h1{margin:7px 0 6px;font-size:32px;letter-spacing:-.03em}.hero p{margin:0;color:var(--muted)}.btn{border:0;border-radius:10px;padding:11px 16px;font-weight:800}.primary{background:var(--g);color:white}.secondary{background:#fff;color:var(--gd);border:1px solid #cfe1d6}.grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(4,1fr)}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}.stat-label{font-size:12px;color:var(--muted);font-weight:700}.stat-value{font-size:27px;font-weight:850;margin:8px 0 3px}.up{color:var(--g);font-size:12px;font-weight:800}.muted{color:var(--muted)}.two{grid-template-columns:1.35fr 1fr;margin-top:16px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.section-head h2{font-size:17px;margin:0}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:13px 8px;border-bottom:1px solid var(--line);font-size:13px;text-align:left}.table th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}.badge{display:inline-flex;padding:5px 8px;border-radius:20px;font-size:11px;font-weight:800;background:var(--gl);color:var(--gd)}.badge.amber{background:#fff4dc;color:#956114}.bar{height:8px;background:#edf2ee;border-radius:20px;overflow:hidden}.bar i{display:block;height:100%;background:var(--g);border-radius:20px}.recommend{background:linear-gradient(135deg,#0d6037,#16834b);color:white}.recommend .muted{color:#c9e6d4}.score{font-size:36px;font-weight:900}.why{display:grid;gap:8px;margin-top:14px}.why div{padding:9px 10px;background:rgba(255,255,255,.1);border-radius:9px;font-size:12px}.hidden{display:none}.view{display:none}.view.active{display:block}.lot-grid{grid-template-columns:repeat(3,1fr)}.buyer-grid{grid-template-columns:repeat(3,1fr)}.buyer-card h3{margin:8px 0}.buyer-card p{font-size:13px;color:var(--muted);line-height:1.5}.price{font-size:24px;font-weight:900;color:var(--gd)}.modal{position:fixed;inset:0;background:rgba(12,31,22,.48);display:none;place-items:center;z-index:50}.modal.show{display:grid}.modal-box{width:min(520px,92vw);background:#fff;border-radius:18px;padding:24px}.form{display:grid;gap:13px}.form label{font-size:12px;font-weight:800}.form input,.form select{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;margin-top:5px;outline:none}.form input:focus,.form select:focus{border-color:var(--g)}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:8px}.chart{height:170px;display:flex;align-items:end;gap:10px;padding-top:12px}.col{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px}.col i{display:block;width:100%;max-width:34px;background:#78b996;border-radius:7px 7px 2px 2px}.col span{font-size:10px;color:var(--muted)}.notice{padding:12px 14px;border-radius:10px;background:#f7f2e6;color:#75561c;font-size:12px;margin-top:14px}.mobile-nav{display:none}
-@media(max-width:900px){.side{display:none}.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);z-index:30;justify-content:space-around;padding:8px}.mobile-nav button{border:0;background:none;font-size:11px;color:var(--muted)}main{padding:22px 16px 78px}.stats{grid-template-columns:repeat(2,1fr)}.two,.lot-grid,.buyer-grid{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.top{padding:0 16px}}
+:root{--g:#16834b;--gd:#0d6037;--gl:#e8f6ee;--ink:#173126;--muted:#6d7d75;--bg:#f5f8f5;--card:#fff;--line:#e2ebe5;--amber:#c98718;--red:#c64b43;--shadow:0 10px 30px rgba(25,65,45,.08)}
+*{box-sizing:border-box;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+body{margin:0;background:var(--bg);color:var(--ink)}
+.app{max-width:1100px;margin:24px auto;padding:16px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{font-size:28px}
+.tag{font-size:12px;color:var(--muted)}
+.layout{display:flex;gap:16px;margin-top:16px}
+.side{width:180px}
+.side button{display:block;width:100%;margin:6px 0;padding:10px;border:0;background:#fff;border-radius:8px;text-align:left}
+.side button.active{background:linear-gradient(180deg,var(--gl),#fff);box-shadow:var(--shadow)}
+.main{flex:1}
+.view{display:none}
+.view.active{display:block}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center}
+.modal.show{display:flex}
+.modal-box{background:var(--card);padding:16px;border-radius:8px;width:min(600px,95%)}
+.btn{padding:8px 12px;border-radius:6px;border:0;background:var(--g);color:#fff}
+.btn.secondary{background:#eee;color:var(--ink)}
+.mobile-nav{display:none}
+@media(max-width:900px){.side{display:none}.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);z-index:30;justify-content:space-around;padding:8px 0}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="top"><div class="brand"><div class="logo">🌱</div><div>FarmIntel<div class="tag">Smart Market Intelligence for Farmers</div></div></div><div class="top-right"><span class="pill">Demo data</span><span class="pill">Farmer mode</span><div class="avatar">MB</div></div></header>
-<div class="layout"><aside class="side"><button class="active" onclick="showView('dashboard',this)">▦ Dashboard</button><button onclick="showView('markets',this)">◫ Market Intelligence</button><button onclick="showView('sell',this)">↗ Sell Smart</button><button onclick="showView('buyers',this)">◎ Buyer Matches</button><button onclick="showView('offers',this)">▣ Offers</button><button onclick="showView('buyer',this)">◉ Buyer Portal</button></aside>
-<main>
-<section id="dashboard" class="view active"><div class="hero"><div><div class="eyebrow">Farmer dashboard · Maharashtra</div><h1>Good evening, Maydha.</h1><p>See where your crop can earn the best net realization today.</p></div><button class="btn primary" onclick="openModal()">+ Add crop lot</button></div>
-<div class="grid stats"><div class="card"><div class="stat-label">Best net price today</div><div class="stat-value">₹2,840/q</div><div class="up">↑ 8.4% vs local average</div></div><div class="card"><div class="stat-label">Active buyer matches</div><div class="stat-value">12</div><div class="up">4 high-confidence matches</div></div><div class="card"><div class="stat-label">Your active lots</div><div class="stat-value">3</div><div class="muted">42 quintals available</div></div><div class="card"><div class="stat-label">Estimated opportunity</div><div class="stat-value">₹18.6k</div><div class="up">Potential uplift across lots</div></div></div>
-<div class="grid two"><div class="card"><div class="section-head"><h2>My crop lots</h2><button class="btn secondary" onclick="showView('sell')">Sell Smart</button></div><table class="table"><thead><tr><th>Crop</th><th>Qty</th><th>Best net</th><th>Status</th></tr></thead><tbody><tr><td><b>Tomato</b><br><span class="muted">Grade A</span></td><td>18 q</td><td>₹2,840</td><td><span class="badge">4 matches</span></td></tr><tr><td><b>Onion</b><br><span class="muted">Grade A</span></td><td>15 q</td><td>₹2,510</td><td><span class="badge">3 matches</span></td></tr><tr><td><b>Turmeric</b><br><span class="muted">Premium</span></td><td>9 q</td><td>₹13,950</td><td><span class="badge amber">Review</span></td></tr></tbody></table></div>
-<div class="card recommend"><div class="section-head"><h2>Sell Smart recommendation</h2><span class="badge" style="background:#d8f0e2">92% confidence</span></div><div class="score">Tomato → Pune buyer</div><p class="muted">Recommended sale window: next 24–48 hours</p><div class="why"><div>✓ Net realization ₹2,840/q after estimated logistics</div><div>✓ Strong buyer demand for Grade A tomatoes</div><div>✓ 86 km shorter than the best mandi alternative</div></div><button class="btn" style="margin-top:15px;background:white;color:var(--gd)" onclick="showView('sell')">View recommendation</button></div></div>
-<div class="card" style="margin-top:16px"><div class="section-head"><h2>Price trend — Tomato, Grade A</h2><span class="muted">Last 7 days</span></div><div class="chart"><div class="col"><i style="height:72px"></i><span>Mon</span></div><div class="col"><i style="height:88px"></i><span>Tue</span></div><div class="col"><i style="height:79px"></i><span>Wed</span></div><div class="col"><i style="height:108px"></i><span>Thu</span></div><div class="col"><i style="height:96px"></i><span>Fri</span></div><div class="col"><i style="height:125px"></i><span>Sat</span></div><div class="col"><i style="height:140px"></i><span>Today</span></div></div></div></section>
+<header class="top"><div class="brand"><div class="logo" role="img" aria-label="FarmIntel logo">🌱</div><div>FarmIntel<div class="tag">Smart Market Intelligence for Farmers</div></div></div><div class="top-right"><span class="pill">Demo</span></div></header>
+<div class="layout"><aside class="side"><button type="button" class="active" onclick="showView('dashboard',this)">▦ Dashboard</button><button type="button" onclick="showView('markets',this)">◫ Market Intelligence</button><button type="button" onclick="showView('sell',this)">⇒ Sell Smart</button><button type="button" onclick="showView('buyers',this)">👥 Buyers</button></aside>
+<main class="main">
+<section id="dashboard" class="view active"><div class="hero"><div class="eyebrow">Farmer dashboard · Maharashtra</div><h1>Good evening, Maydha.</h1><p>See where your crop can earn the best net price after logistics and quality adjustments.</p></div>
+<div class="grid stats"><div class="card"><div class="stat-label">Best net price today</div><div class="stat-value">₹2,840/q</div><div class="up">↑ 8.4% vs local average</div></div></div>
+</section>
 
-<section id="markets" class="view"><div class="hero"><div><div class="eyebrow">Market intelligence</div><h1>Compare the real economics.</h1><p>Headline price is only one part of the decision.</p></div></div><div class="card"><div class="section-head"><h2>Tomato · Grade A · 18 quintals</h2><span class="badge">Updated for demo</span></div><table class="table"><thead><tr><th>Market / Buyer</th><th>Offer</th><th>Transport</th><th>Net price</th><th>Demand</th><th>Distance</th></tr></thead><tbody><tr><td><b>FreshKart Foods</b><br><span class="muted">Verified buyer</span></td><td>₹3,020</td><td>₹180</td><td><b>₹2,840</b></td><td><span class="badge">High</span></td><td>92 km</td></tr><tr><td><b>Pune APMC</b><br><span class="muted">Market</span></td><td>₹2,930</td><td>₹210</td><td><b>₹2,720</b></td><td><span class="badge amber">Medium</span></td><td>118 km</td></tr><tr><td><b>Hyderabad Buyer Hub</b><br><span class="muted">Institutional</span></td><td>₹2,980</td><td>₹310</td><td><b>₹2,670</b></td><td><span class="badge">High</span></td><td>164 km</td></tr></tbody></table><div class="notice">Demo values only. Production FarmIntel should connect to approved market-price, logistics and buyer-verification sources before making real trading decisions.</div></div></section>
+<section id="markets" class="view"><div class="hero"><div class="eyebrow">Market intelligence</div><h1>Compare the real economics.</h1><p>Headline price is only one part of the decision.</p></div></section>
 
-<section id="sell" class="view"><div class="hero"><div><div class="eyebrow">AI-assisted selling</div><h1>Sell Smart.</h1><p>Recommendation explained in plain language, not a black box.</p></div><button class="btn primary" onclick="openModal()">Add another lot</button></div><div class="grid two"><div class="card"><div class="section-head"><h2>Recommended option</h2><span class="badge">92% confidence</span></div><h2 style="font-size:28px;margin:8px 0">FreshKart Foods</h2><p class="muted">Tomato · Grade A · 18 q · Pickup available</p><div class="grid stats" style="grid-template-columns:repeat(2,1fr);margin-top:18px"><div><div class="stat-label">Offer</div><div class="price">₹3,020/q</div></div><div><div class="stat-label">Estimated net</div><div class="price">₹2,840/q</div></div></div><button class="btn primary" style="margin-top:20px;width:100%" onclick="showView('offers')">Review offer</button></div><div class="card"><h2 style="font-size:17px">Why this is recommended</h2><div style="margin-top:15px"><div class="stat-label">Net price score</div><div class="bar" style="margin:8px 0 14px"><i style="width:94%"></i></div><div class="stat-label">Demand score</div><div class="bar" style="margin:8px 0 14px"><i style="width:88%"></i></div><div class="stat-label">Logistics score</div><div class="bar" style="margin:8px 0 14px"><i style="width:91%"></i></div><div class="stat-label">Timing score</div><div class="bar" style="margin:8px 0 14px"><i style="width:86%"></i></div></div><p class="muted" style="font-size:12px">The recommendation prioritizes expected net realization, buyer demand, distance, lot quality and timing. It is an assistive estimate, not a guaranteed forecast.</p></div></div></section>
+<section id="sell" class="view"><div class="hero"><div class="eyebrow">AI-assisted selling</div><h1>Sell Smart.</h1><p>Recommendation explained in plain language, not a black box.</p><button type="button" class="btn" onclick="openModal()">Add crop lot</button></div></section>
 
-<section id="buyers" class="view"><div class="hero"><div><div class="eyebrow">Buyer matching</div><h1>Buyers looking for your crop.</h1><p>Matches are ranked by quantity, quality, price and logistics fit.</p></div></div><div class="grid buyer-grid"><div class="card buyer-card"><span class="badge">94% match</span><h3>FreshKart Foods</h3><p>Needs 15–25 q Tomato, Grade A. Pickup from farm. Payment within 2 business days.</p><div class="price">₹3,020/q</div><button class="btn primary" style="margin-top:14px;width:100%" onclick="showView('offers')">View offer</button></div><div class="card buyer-card"><span class="badge">88% match</span><h3>GreenBasket Retail</h3><p>Needs 10–20 q Tomato, Grade A/B. Delivery to Pune aggregation center.</p><div class="price">₹2,960/q</div><button class="btn secondary" style="margin-top:14px;width:100%" onclick="showView('offers')">Compare</button></div><div class="card buyer-card"><span class="badge amber">81% match</span><h3>Deccan Foods Co-op</h3><p>Needs 20–40 q mixed tomato. Weekly procurement cycle with quality inspection.</p><div class="price">₹2,900/q</div><button class="btn secondary" style="margin-top:14px;width:100%" onclick="showView('offers')">Compare</button></div></div></section>
+<section id="buyers" class="view"><div class="hero"><div class="eyebrow">Buyer matching</div><h1>Buyers looking for your crop.</h1></div></section>
 
-<section id="offers" class="view"><div class="hero"><div><div class="eyebrow">Digital offers</div><h1>Compare and decide.</h1><p>Keep the offer, logistics and payment terms together.</p></div></div><div class="card"><table class="table"><thead><tr><th>Buyer</th><th>Offer</th><th>Pickup</th><th>Payment</th><th>Net</th><th></th></tr></thead><tbody><tr><td><b>FreshKart Foods</b></td><td>₹3,020/q</td><td>Buyer</td><td>2 days</td><td><b>₹2,840/q</b></td><td><button class="btn primary" onclick="acceptOffer(this)">Accept</button></td></tr><tr><td><b>GreenBasket Retail</b></td><td>₹2,960/q</td><td>Farmer</td><td>3 days</td><td><b>₹2,735/q</b></td><td><button class="btn secondary" onclick="acceptOffer(this)">Review</button></td></tr><tr><td><b>Deccan Foods Co-op</b></td><td>₹2,900/q</td><td>Buyer</td><td>5 days</td><td><b>₹2,740/q</b></td><td><button class="btn secondary" onclick="acceptOffer(this)">Review</button></td></tr></tbody></table></div></section>
+<section id="offers" class="view"><div class="hero"><div class="eyebrow">Digital offers</div><h1>Compare and decide.</h1></div></section>
 
-<section id="buyer" class="view"><div class="hero"><div><div class="eyebrow">Buyer portal</div><h1>Source consistent farm lots.</h1><p>Post a requirement and let FarmIntel surface suitable lots.</p></div><button class="btn primary" onclick="postRequirement()">+ Post requirement</button></div><div class="grid two"><div class="card"><h2 style="font-size:17px">Your active requirement</h2><p><b>Tomato · Grade A</b></p><p class="muted">20–50 q · Pune · Delivery by 10 Sep</p><span class="badge">7 matching lots</span></div><div class="card"><h2 style="font-size:17px">Trust signals</h2><p class="muted" style="font-size:13px">Buyer verification, quality evidence, offer history and transaction records can reduce uncertainty for both sides.</p><span class="badge">Prototype module</span></div></div></section>
+<section id="buyer" class="view"><div class="hero"><div class="eyebrow">Buyer portal</div><h1>Source consistent farm lots.</h1></div></section>
 </main></div>
-<nav class="mobile-nav"><button onclick="showView('dashboard')">Dashboard</button><button onclick="showView('markets')">Markets</button><button onclick="showView('sell')">Sell Smart</button><button onclick="showView('buyers')">Buyers</button></nav>
-<div id="modal" class="modal"><div class="modal-box"><div class="section-head"><h2>Add crop lot</h2><button class="btn secondary" onclick="closeModal()">×</button></div><div class="form"><label>Crop<select id="crop"><option>Tomato</option><option>Onion</option><option>Turmeric</option><option>Potato</option></select></label><label>Quantity (quintals)<input id="qty" type="number" value="18"></label><label>Quality grade<select><option>Grade A</option><option>Grade B</option><option>Premium</option></select></label><label>Preferred selling area<input value="Pune / nearby markets"></label><div class="modal-actions"><button class="btn secondary" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveLot()">Create lot</button></div></div></div></div>
+
+<nav class="mobile-nav"><button type="button" onclick="showView('dashboard',this)">Dashboard</button><button type="button" onclick="showView('markets',this)">Markets</button><button type="button" onclick="showView('sell',this)">Sell Smart</button><button type="button" onclick="showView('buyers',this)">Buyers</button></nav>
+
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <div class="section-head"><h2 id="modal-title">Add crop lot</h2><button type="button" class="btn secondary" onclick="closeModal()" aria-label="Close modal">×</button></div>
+    <div class="form">
+      <label>Crop<input type="text" id="crop-name"/></label>
+      <div style="margin-top:12px"><button type="button" class="btn" onclick="saveLot()">Save lot</button></div>
+    </div>
+  </div>
+</div>
+
 <script>
+// Basic view handling with safety checks and mobile-nav active state update
 const views=['dashboard','markets','sell','buyers','offers','buyer'];
-function showView(id,el){views.forEach(v=>document.getElementById(v).classList.toggle('active',v===id));document.querySelectorAll('.side button').forEach(b=>b.classList.remove('active'));if(el)el.classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
-function openModal(){document.getElementById('modal').classList.add('show')}function closeModal(){document.getElementById('modal').classList.remove('show')}
-function saveLot(){closeModal();alert('Crop lot created. FarmIntel has queued market and buyer matching for this demo lot.');showView('buyers')}
-function acceptOffer(btn){btn.textContent='Accepted';btn.disabled=true;btn.style.opacity='.7';alert('Offer accepted in demo mode. A real build should create a transaction record and payment/logistics workflow.')}
-function postRequirement(){alert('Buyer requirement form is the next transaction step. Demo prototype: Tomato, Grade A, 20–50 q, Pune.')}
+function showView(id, el){
+  views.forEach(v=>{ const node = document.getElementById(v); if(node) node.classList.toggle('active', v===id); });
+  // clear active on navigation buttons
+  document.querySelectorAll('.side button, .mobile-nav button').forEach(b=>b.classList.remove('active'));
+  // mark the clicked element active if provided
+  if(el && el.classList) el.classList.add('active');
+  // otherwise try to find a nav button whose onclick contains the id and mark it active
+  document.querySelectorAll('.side button, .mobile-nav button').forEach(b=>{
+    const on = b.getAttribute('onclick') || '';
+    if(on.includes("showView('"+id+"')") || on.includes('showView("'+id+'")')) b.classList.add('active');
+  });
+}
+
+// Modal accessibility helpers
+function openModal(){
+  const modal = document.getElementById('modal');
+  if(!modal) return;
+  modal.classList.add('show');
+  modal.setAttribute('aria-hidden','false');
+  // focus first input if any
+  const first = modal.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
+  if(first) first.focus();
+}
+function closeModal(){
+  const modal = document.getElementById('modal');
+  if(!modal) return;
+  modal.classList.remove('show');
+  modal.setAttribute('aria-hidden','true');
+}
+function saveLot(){
+  closeModal();
+  alert('Crop lot created. FarmIntel has queued market and buyer matching for this demo lot.');
+  showView('buyers');
+}
+function acceptOffer(btn){
+  if(!btn) return;
+  btn.textContent='Accepted';btn.disabled=true;btn.style.opacity='.7';
+  alert('Offer accepted in demo mode. A real build should create a transaction record and payment/logistics flow.');
+}
+function postRequirement(){alert('Buyer requirement form is the next transaction step. Demo prototype: Tomato, Grade A, 20–50 q, Pune.');}
+
+// Close modal on Escape
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ const modal = document.getElementById('modal'); if(modal && modal.classList.contains('show')) closeModal(); }});
+
+// Ensure buttons are type=button where missing (prevents accidental form submit)
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('button').forEach(b=>{ if(!b.hasAttribute('type')) b.setAttribute('type','button'); });
+});
 </script>
-</body></html>
+</body>
+</html>
