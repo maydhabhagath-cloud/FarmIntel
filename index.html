@@ -1,118 +1,418 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>FarmIntel — Smart Market Intelligence for Farmers</title>
-<meta name="description" content="FarmIntel — Smart market intelligence for smallholder farmers. Compare prices, match buyers, and sell smart.">
+<meta name="description" content="FarmIntel — Smart market intelligence for smallholder farmers. Compare prices, match buyers, and sell smart. Demo data only (SIH26132).">
+<meta property="og:title" content="FarmIntel — Smart Market Intelligence for Farmers">
+<meta property="og:description" content="Compare prices, logistics and demand to decide where, when and to whom to sell your crop. Demo prototype for SIH26132.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <style>
-:root{--g:#16834b;--gd:#0d6037;--gl:#e8f6ee;--ink:#173126;--muted:#6d7d75;--bg:#f5f8f5;--card:#fff;--line:#e2ebe5;--amber:#c98718;--red:#c64b43;--shadow:0 10px 30px rgba(25,65,45,.08)}
-*{box-sizing:border-box;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-body{margin:0;background:var(--bg);color:var(--ink)}
-.app{max-width:1100px;margin:24px auto;padding:16px}
-.top{display:flex;justify-content:space-between;align-items:center}
-.brand{display:flex;gap:12px;align-items:center}
-.logo{font-size:28px}
-.tag{font-size:12px;color:var(--muted)}
-.layout{display:flex;gap:16px;margin-top:16px}
-.side{width:180px}
-.side button{display:block;width:100%;margin:6px 0;padding:10px;border:0;background:#fff;border-radius:8px;text-align:left}
-.side button.active{background:linear-gradient(180deg,var(--gl),#fff);box-shadow:var(--shadow)}
-.main{flex:1}
-.view{display:none}
-.view.active{display:block}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center}
+:root{--g:#1b6b3a;--gd:#145a31;--muted:#607160;--bg:#f6faf6;--card:#ffffff;--line:#e6efe6;--accent:#ffb74d;--danger:#cc4a3a;--shadow:0 8px 24px rgba(17,59,37,.08)}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#173126;background:var(--bg);-webkit-font-smoothing:antialiased}
+.container{max-width:1100px;margin:20px auto;padding:20px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:48px;height:48px;border-radius:8px;background:linear-gradient(180deg,var(--g),var(--gd));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:22px}
+.title{font-size:18px;font-weight:600}
+.tag{font-size:13px;color:var(--muted)}
+.header-actions{display:flex;gap:8px;align-items:center}
+.pill{background:#eaf7ed;color:var(--g);padding:6px 10px;border-radius:999px;font-weight:600}
+.search{padding:8px 12px;border:1px solid var(--line);border-radius:8px}
+.grid{display:grid;grid-template-columns:220px 1fr;gap:16px;margin-top:18px}
+.sidebar{background:var(--card);padding:12px;border-radius:10px;border:1px solid var(--line)}
+.nav{display:flex;flex-direction:column;gap:8px}
+.nav button{background:transparent;border:0;padding:10px;text-align:left;border-radius:8px;color:var(--g);font-weight:600;cursor:pointer}
+.nav button.active{background:linear-gradient(180deg,rgba(27,107,58,.06),rgba(20,90,49,.03));box-shadow:var(--shadow)}
+.content{min-height:400px}
+.card{background:var(--card);padding:14px;border-radius:10px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.row{display:flex;gap:12px;align-items:center}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.stat{padding:12px;border-radius:8px;background:linear-gradient(180deg,#fff,#f6fff6);}
+.stat .label{font-size:12px;color:var(--muted)}
+.stat .value{font-size:18px;font-weight:700;color:var(--g)}
+.small{font-size:12px;color:var(--muted)}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
+.table th{font-size:13px;color:var(--muted)}
+.badge{display:inline-block;padding:6px 8px;border-radius:6px;background:#eaf7ed;color:var(--g);font-weight:600}
+.btn{background:var(--g);color:#fff;padding:8px 12px;border-radius:8px;border:0;cursor:pointer}
+.btn.secondary{background:#fff;border:1px solid var(--line);color:var(--g)}
+.mobile-only{display:none}
+@media(max-width:900px){.grid{grid-template-columns:1fr;}.sidebar{order:2}.mobile-only{display:inline-block}.desktop-only{display:none}}
+.footer-note{margin-top:12px;font-size:12px;color:var(--muted)}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.35);z-index:60}
 .modal.show{display:flex}
-.modal-box{background:var(--card);padding:16px;border-radius:8px;width:min(600px,95%)}
-.btn{padding:8px 12px;border-radius:6px;border:0;background:var(--g);color:#fff}
-.btn.secondary{background:#eee;color:var(--ink)}
-.mobile-nav{display:none}
-@media(max-width:900px){.side{display:none}.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);z-index:30;justify-content:space-around;padding:8px 0}}
+.modal-box{width:min(680px,96%);background:var(--card);padding:18px;border-radius:10px;border:1px solid var(--line)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:13px;color:var(--muted)}
+.field input,.field select{padding:8px;border:1px solid var(--line);border-radius:8px}
+.kv{display:flex;justify-content:space-between;gap:12px}
+.toast{position:fixed;right:20px;bottom:20px;background:#173126;color:#fff;padding:10px 14px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.lead{font-size:15px;color:#223;line-height:1.4}
+.card-list{display:grid;gap:12px}
+.card-compact{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px;border-radius:8px;border:1px solid var(--line)}
+.important{font-weight:700;color:var(--g)}
+.trend{font-size:12px;color:var(--muted)}
+.recommend{display:flex;align-items:center;gap:12px}
+.score{background:linear-gradient(90deg,var(--g),var(--gd));color:#fff;padding:8px 12px;border-radius:8px;font-weight:700}
+.small-muted{font-size:12px;color:var(--muted)}
+.empty{padding:24px;text-align:center;color:var(--muted)}
+.trust{display:inline-flex;align-items:center;gap:6px}
+.trust .dot{width:10px;height:10px;border-radius:50%}
+.trust.verified .dot{background:#27ae60}
+.trust.unverified .dot{background:#ccc}
 </style>
 </head>
 <body>
-<div class="app">
-<header class="top"><div class="brand"><div class="logo" role="img" aria-label="FarmIntel logo">🌱</div><div>FarmIntel<div class="tag">Smart Market Intelligence for Farmers</div></div></div><div class="top-right"><span class="pill">Demo</span></div></header>
-<div class="layout"><aside class="side"><button type="button" class="active" onclick="showView('dashboard',this)">▦ Dashboard</button><button type="button" onclick="showView('markets',this)">◫ Market Intelligence</button><button type="button" onclick="showView('sell',this)">⇒ Sell Smart</button><button type="button" onclick="showView('buyers',this)">👥 Buyers</button></aside>
-<main class="main">
-<section id="dashboard" class="view active"><div class="hero"><div class="eyebrow">Farmer dashboard · Maharashtra</div><h1>Good evening, Maydha.</h1><p>See where your crop can earn the best net price after logistics and quality adjustments.</p></div>
-<div class="grid stats"><div class="card"><div class="stat-label">Best net price today</div><div class="stat-value">₹2,840/q</div><div class="up">↑ 8.4% vs local average</div></div></div>
-</section>
+<div class="container" id="app">
+  <header class="header">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">FI</div>
+      <div>
+        <div class="title">FarmIntel <span class="tag">— Smart Market Intelligence for Farmers</span></div>
+        <div class="tag small-muted">SIH26132 demo • demo data only</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <input class="search" id="globalSearch" placeholder="Search lots, buyers, markets" aria-label="Search">
+      <button class="btn" id="ctaCheck">Check Market Prices</button>
+    </div>
+  </header>
 
-<section id="markets" class="view"><div class="hero"><div class="eyebrow">Market intelligence</div><h1>Compare the real economics.</h1><p>Headline price is only one part of the decision.</p></div></section>
+  <div class="grid">
+    <aside class="sidebar card">
+      <div class="row">
+        <div>
+          <div class="small-muted">Farmer</div>
+          <div class="important">Maydha Patil</div>
+          <div class="small-muted">Pune, Maharashtra</div>
+        </div>
+      </div>
+      <hr style="border:none;border-top:1px solid var(--line);margin:12px 0">
+      <nav class="nav" role="navigation" aria-label="Main navigation">
+        <button data-view="dashboard" class="active">Dashboard</button>
+        <button data-view="lots">My Lots</button>
+        <button data-view="markets">Market Intelligence</button>
+        <button data-view="sell">Sell Smart</button>
+        <button data-view="buyers">Buyer Matches</button>
+        <button data-view="offers">Offers</button>
+        <button data-view="buyer-portal">Buyer Portal</button>
+        <button data-view="fpo">FPO View</button>
+        <button data-view="logistics">Logistics</button>
+      </nav>
+      <hr style="border:none;border-top:1px solid var(--line);margin:12px 0">
+      <div class="footer-note">Demo data only. Not live mandi or verified buyers. See Data Transparency.</div>
+    </aside>
 
-<section id="sell" class="view"><div class="hero"><div class="eyebrow">AI-assisted selling</div><h1>Sell Smart.</h1><p>Recommendation explained in plain language, not a black box.</p><button type="button" class="btn" onclick="openModal()">Add crop lot</button></div></section>
+    <main class="content">
+      <section id="dashboard" class="card view">
+        <div class="row" style="justify-content:space-between">
+          <div>
+            <div class="lead">Decide where, when and to whom to sell your crop for better net realization.</div>
+            <div class="small-muted">FarmIntel compares prices, logistics and demand to recommend the best selling opportunity for your lots.</div>
+          </div>
+          <div class="row">
+            <button class="btn" id="addLotBtn">Add crop lot</button>
+            <button class="btn secondary" id="viewMarketsBtn">Compare markets</button>
+          </div>
+        </div>
 
-<section id="buyers" class="view"><div class="hero"><div class="eyebrow">Buyer matching</div><h1>Buyers looking for your crop.</h1></div></section>
+        <div class="stats" aria-hidden="false">
+          <div class="stat card">
+            <div class="label">Best recommended net price</div>
+            <div class="value" id="bestNet">₹0/q</div>
+            <div class="small-muted">Updated from demo data</div>
+          </div>
+          <div class="stat card">
+            <div class="label">Active lots</div>
+            <div class="value" id="lotCount">0</div>
+            <div class="small-muted">Your registered crop lots</div>
+          </div>
+          <div class="stat card">
+            <div class="label">Recent offers</div>
+            <div class="value" id="offerCount">0</div>
+            <div class="small-muted">Incoming offers in demo</div>
+          </div>
+        </div>
 
-<section id="offers" class="view"><div class="hero"><div class="eyebrow">Digital offers</div><h1>Compare and decide.</h1></div></section>
+        <div style="margin-top:12px" id="dashboard-sections">
+          <div class="card" style="margin-top:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div><strong>My crop lots</strong><div class="small-muted">Manage your farm lots</div></div>
+              <div><button class="btn secondary" id="addLotQuick">Add lot</button></div>
+            </div>
+            <div id="lotsList" class="card-list" style="margin-top:12px"></div>
+          </div>
 
-<section id="buyer" class="view"><div class="hero"><div class="eyebrow">Buyer portal</div><h1>Source consistent farm lots.</h1></div></section>
-</main></div>
+          <div class="card" style="margin-top:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div><strong>Market opportunities</strong><div class="small-muted">Demo buyer offers and market prices</div></div>
+              <div class="small-muted">Net Realizable Price is highlighted</div>
+            </div>
+            <div style="margin-top:12px" id="marketList"></div>
+          </div>
 
-<nav class="mobile-nav"><button type="button" onclick="showView('dashboard',this)">Dashboard</button><button type="button" onclick="showView('markets',this)">Markets</button><button type="button" onclick="showView('sell',this)">Sell Smart</button><button type="button" onclick="showView('buyers',this)">Buyers</button></nav>
+        </div>
+      </section>
 
-<div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title">
-  <div class="modal-box">
-    <div class="section-head"><h2 id="modal-title">Add crop lot</h2><button type="button" class="btn secondary" onclick="closeModal()" aria-label="Close modal">×</button></div>
-    <div class="form">
-      <label>Crop<input type="text" id="crop-name"/></label>
-      <div style="margin-top:12px"><button type="button" class="btn" onclick="saveLot()">Save lot</button></div>
+      <!-- My Lots -->
+      <section id="lots" class="card view" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><strong>My Lots</strong><div class="small-muted">Add and manage your crop lots</div></div>
+          <div><button class="btn" id="addLotBtn2">Add new lot</button></div>
+        </div>
+        <div style="margin-top:12px" id="lotsTableArea"></div>
+      </section>
+
+      <!-- Market Intelligence -->
+      <section id="markets" class="card view" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><strong>Market Intelligence</strong><div class="small-muted">Compare buyer offers and mandi prices</div></div>
+          <div class="small-muted">Net Realizable Price = Offer − Transport − Other costs</div>
+        </div>
+        <div style="margin-top:12px" id="marketsTableArea"></div>
+      </section>
+
+      <!-- Sell Smart -->
+      <section id="sell" class="card view" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <strong>Sell Smart</strong>
+            <div class="small-muted">Indicative recommendation (demo)</div>
+          </div>
+          <div class="recommend"><div class="score" id="recScore">0</div><div id="recLabel" style="min-width:220px"></div></div>
+        </div>
+        <div style="margin-top:12px" id="sellExplain"></div>
+      </section>
+
+      <!-- Buyers -->
+      <section id="buyers" class="card view" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center"><div><strong>Buyer Matches</strong><div class="small-muted">Demo buyers — not verified</div></div><div></div></div>
+        <div style="margin-top:12px" id="buyersArea"></div>
+      </section>
+
+      <!-- Offers -->
+      <section id="offers" class="card view" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center"><div><strong>Offers</strong><div class="small-muted">Incoming offers for your lots</div></div></div>
+        <div style="margin-top:12px" id="offersArea"></div>
+      </section>
+
+      <!-- Buyer Portal -->
+      <section id="buyer-portal" class="card view" style="display:none">
+        <div><strong>Buyer Portal (Demo)</strong><div class="small-muted">Buyers can post requirements and view matching farmer lots.</div></div>
+        <div style="margin-top:12px" id="buyerPortalArea"></div>
+      </section>
+
+      <!-- FPO -->
+      <section id="fpo" class="card view" style="display:none">
+        <div><strong>FPO Overview</strong><div class="small-muted">Aggregated farmer lots and market opportunities</div></div>
+        <div style="margin-top:12px" id="fpoArea"></div>
+      </section>
+
+      <!-- Logistics -->
+      <section id="logistics" class="card view" style="display:none">
+        <div><strong>Logistics (Demo)</strong><div class="small-muted">Estimated transport and pickup planning</div></div>
+        <div style="margin-top:12px" id="logisticsArea"></div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- Modal for Add Lot -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-box" role="document">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div><strong>Add crop lot</strong><div class="small-muted">Provide details — required fields marked *</div></div>
+      <div><button class="btn secondary" id="closeModalBtn">Close</button></div>
+    </div>
+    <div style="margin-top:12px">
+      <form id="lotForm">
+        <div class="form-grid">
+          <div class="field"><label>Crop *</label><select id="lotCrop" required><option value="">Select</option><option>Tomato</option><option>Onion</option><option>Soybean</option><option>Cotton</option><option>Tur</option><option>Pomegranate</option></select></div>
+          <div class="field"><label>Variety</label><input id="lotVariety" placeholder="e.g., Grade A"></div>
+          <div class="field"><label>Quantity *</label><input id="lotQty" type="number" min="1" required></div>
+          <div class="field"><label>Unit *</label><select id="lotUnit" required><option>q</option><option>kg</option></select></div>
+          <div class="field"><label>Harvest date *</label><input id="lotDate" type="date" required></div>
+          <div class="field"><label>Quality / Grade *</label><select id="lotQuality" required><option>Grade A</option><option>Grade B</option><option>Grade C</option></select></div>
+          <div class="field"><label>Location (village/district)</label><input id="lotLocation"></div>
+          <div class="field"><label>Min acceptable price (₹/q)</label><input id="lotMinPrice" type="number" min="0"></div>
+          <div class="field"><label>Storage available?</label><select id="lotStorage"><option>No</option><option>Yes</option></select></div>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn secondary" type="button" id="cancelLot">Cancel</button>
+          <button class="btn" type="submit">Create lot</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
 
+<!-- Toast -->
+<div id="toast" class="toast" style="display:none"></div>
+
 <script>
-// Basic view handling with safety checks and mobile-nav active state update
-const views=['dashboard','markets','sell','buyers','offers','buyer'];
-function showView(id, el){
-  views.forEach(v=>{ const node = document.getElementById(v); if(node) node.classList.toggle('active', v===id); });
-  // clear active on navigation buttons
-  document.querySelectorAll('.side button, .mobile-nav button').forEach(b=>b.classList.remove('active'));
-  // mark the clicked element active if provided
-  if(el && el.classList) el.classList.add('active');
-  // otherwise try to find a nav button whose onclick contains the id and mark it active
-  document.querySelectorAll('.side button, .mobile-nav button').forEach(b=>{
-    const on = b.getAttribute('onclick') || '';
-    if(on.includes("showView('"+id+"')") || on.includes('showView("'+id+'")')) b.classList.add('active');
+// Demo data (Maharashtra-focused realistic examples)
+const DATA = {
+  lots: [
+    {id: 'L1', crop: 'Tomato', variety: 'Grade A', qty: 25, unit: 'q', harvest: '2026-09-10', quality: 'Grade A', location: 'Pune', minPrice: 2600, storage: 'No'},
+  ],
+  markets: [
+    {id:'M1', market:'Pune Regulated Market', buyer:'Pune Wholesale Buyer', crop:'Tomato', price: 2840, transport_km: 50, other_costs: 50, demand_q: 40, min_qty:20, quality_required:'Grade A', trust: 'verified'},
+    {id:'M2', market:'Mumbai Consumer Market', buyer:'Mumbai Retailer', crop:'Tomato', price: 2900, transport_km: 180, other_costs: 120, demand_q: 60, min_qty:10, quality_required:'Grade B', trust: 'unverified'},
+    {id:'M3', market:'Pune Coldstore Buyer', buyer:'Coldstore Pvt Ltd', crop:'Tomato', price: 2700, transport_km: 40, other_costs: 80, demand_q: 100, min_qty:30, quality_required:'Grade A', trust: 'verified'},
+  ],
+  buyers: [
+    {id:'B1', name:'Pune Buyer Co', type:'Wholesale', location:'Pune', crop:'Tomato', qty:30, price_min:2600, price_max:2900, quality:'Grade A', trust:'verified'},
+    {id:'B2', name:'Mumbai Retailers', type:'Retail', location:'Mumbai', crop:'Tomato', qty:50, price_min:2700, price_max:3000, quality:'Grade B', trust:'unverified'},
+  ],
+  offers: [
+    {id:'O1', lotId:'L1', buyer:'Pune Wholesale Buyer', price:2800, qty:20, expiry:'2026-09-04', transport_est:400, status:'pending'}
+  ]
+};
+
+// Utilities
+function showToast(msg, timeout=3000){ const t = document.getElementById('toast'); t.textContent = msg; t.style.display='block'; setTimeout(()=>t.style.display='none', timeout); }
+function formatRupee(v){ return '₹'+Number(v).toLocaleString()+'/q'; }
+
+// Compute transport estimate cost per q (simple rate: ₹8/km for a truck divided by per-q load assumption)
+function transportCostPerQ(km){ const ratePerKm = 8; const truckLoadQ = 100; return Math.round((km * ratePerKm)/truckLoadQ); }
+
+function netRealizable(offerPrice, transportKm, otherCosts){ const t = transportCostPerQ(transportKm); return offerPrice - t - otherCosts; }
+
+// Navigation
+const views = document.querySelectorAll('[data-view]');
+views.forEach(btn=>btn.addEventListener('click', ()=>{ setView(btn.getAttribute('data-view')); }));
+function setView(id){ document.querySelectorAll('.view').forEach(v=>v.style.display='none'); const el = document.getElementById(id); if(el) el.style.display='block'; document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active', b.getAttribute('data-view')===id)); }
+
+// Initial render
+function init(){ renderCounts(); renderLots(); renderMarkets(); renderDashboardMarkets(); renderBuyers(); renderOffers(); renderBuyerPortal(); renderFPO(); renderLogistics(); renderSell(); attachHandlers(); }
+
+function renderCounts(){ document.getElementById('lotCount').textContent = DATA.lots.length; document.getElementById('offerCount').textContent = DATA.offers.filter(o=>o.status==='pending').length; }
+
+// Lots UI
+function renderLots(){ const area = document.getElementById('lotsList'); area.innerHTML=''; if(DATA.lots.length===0){ area.innerHTML='<div class="empty">No lots yet. Add a crop lot to get started.</div>'; return; }
+  DATA.lots.forEach(l=>{
+    const div = document.createElement('div'); div.className='card-compact'; div.innerHTML = `<div><div style="font-weight:700">${l.crop} <span class="small-muted">${l.variety||''}</span></div><div class="small-muted">${l.qty} ${l.unit} • Harvest ${l.harvest} • ${l.location||''}</div></div><div style="text-align:right"><div class="important">${l.minPrice?formatRupee(l.minPrice):''}</div><div style="margin-top:8px"><button class="btn secondary" onclick="viewLot('${l.id}')">View</button></div></div>`;
+    area.appendChild(div);
+  });
+  // Also render lots table
+  const tableArea = document.getElementById('lotsTableArea'); tableArea.innerHTML=''; const tbl = document.createElement('table'); tbl.className='table'; tbl.innerHTML = `<thead><tr><th>Lot</th><th>Qty</th><th>Quality</th><th>Harvest</th><th>Min price</th><th></th></tr></thead>`;
+  const tbody = document.createElement('tbody'); DATA.lots.forEach(l=>{ const tr = document.createElement('tr'); tr.innerHTML = `<td>${l.crop} ${l.variety?'- '+l.variety:''}<div class="small-muted">${l.location||''}</div></td><td>${l.qty} ${l.unit}</td><td>${l.quality}</td><td>${l.harvest}</td><td>${l.minPrice?formatRupee(l.minPrice):'—'}</td><td><button class="btn" onclick="viewLot('${l.id}')">View</button></td>`; tbody.appendChild(tr); }); tbl.appendChild(tbody); tableArea.appendChild(tbl);
+}
+
+function viewLot(id){ const lot = DATA.lots.find(x=>x.id===id); if(!lot){ showToast('Lot not found'); return; } setView('lots'); showToast('Viewing lot '+lot.crop);
+}
+
+// Markets
+function renderMarkets(){ const area = document.getElementById('marketList'); area.innerHTML=''; if(DATA.markets.length===0){ area.innerHTML='<div class="empty">No market opportunities available.</div>'; return; }
+  DATA.markets.forEach(m=>{
+    const net = netRealizable(m.price, m.transport_km, m.other_costs);
+    const div = document.createElement('div'); div.className='card-compact'; div.innerHTML = `<div><div style="font-weight:700">${m.market}<div class="small-muted">${m.buyer}</div></div><div class="small-muted">Demand: ${m.demand_q} q • Min qty: ${m.min_qty} q • Quality: ${m.quality_required}</div></div><div style="text-align:right"><div style="font-size:16px">${formatRupee(m.price)}</div><div class="important" style="margin-top:6px">NET ${formatRupee(net)}</div><div style="margin-top:8px"><button class="btn" onclick="makeOffer('${m.id}')">Make Offer</button></div></div>`;
+    area.appendChild(div);
   });
 }
 
-// Modal accessibility helpers
-function openModal(){
-  const modal = document.getElementById('modal');
-  if(!modal) return;
-  modal.classList.add('show');
-  modal.setAttribute('aria-hidden','false');
-  // focus first input if any
-  const first = modal.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
-  if(first) first.focus();
+function renderDashboardMarkets(){ const area = document.getElementById('marketsTableArea'); area.innerHTML=''; const tbl = document.createElement('table'); tbl.className='table'; tbl.innerHTML = `<thead><tr><th>Market / Buyer</th><th>Offer</th><th>Transport est</th><th>Other costs</th><th>Net realizable</th><th>Demand</th><th>Quality</th><th>Action</th></tr></thead>`; const tbody = document.createElement('tbody'); DATA.markets.forEach(m=>{ const net = netRealizable(m.price, m.transport_km, m.other_costs); const tr = document.createElement('tr'); tr.innerHTML = `<td><strong>${m.market}</strong><div class="small-muted">${m.buyer}</div></td><td>${formatRupee(m.price)}</td><td>${m.transport_km} km • ${formatRupee(transportCostPerQ(m.transport_km))}</td><td>${formatRupee(m.other_costs)}</td><td style="font-weight:700;color:var(--g)">${formatRupee(net)}</td><td>${m.demand_q} q</td><td>${m.quality_required}</td><td><button class="btn" onclick="makeOffer('${m.id}')">Make Offer</button></td>`; tbody.appendChild(tr); }); tbl.appendChild(tbody); area.appendChild(tbl);
 }
-function closeModal(){
-  const modal = document.getElementById('modal');
-  if(!modal) return;
-  modal.classList.remove('show');
-  modal.setAttribute('aria-hidden','true');
-}
-function saveLot(){
-  closeModal();
-  alert('Crop lot created. FarmIntel has queued market and buyer matching for this demo lot.');
-  showView('buyers');
-}
-function acceptOffer(btn){
-  if(!btn) return;
-  btn.textContent='Accepted';btn.disabled=true;btn.style.opacity='.7';
-  alert('Offer accepted in demo mode. A real build should create a transaction record and payment/logistics flow.');
-}
-function postRequirement(){alert('Buyer requirement form is the next transaction step. Demo prototype: Tomato, Grade A, 20–50 q, Pune.');}
 
-// Close modal on Escape
-document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ const modal = document.getElementById('modal'); if(modal && modal.classList.contains('show')) closeModal(); }});
+// Markets table in Market Intelligence view
+function renderMarketsTable(){ const area = document.getElementById('marketsTableArea'); /* already used by dashboard render */ }
 
-// Ensure buttons are type=button where missing (prevents accidental form submit)
-document.addEventListener('DOMContentLoaded', ()=>{
-  document.querySelectorAll('button').forEach(b=>{ if(!b.hasAttribute('type')) b.setAttribute('type','button'); });
-});
+// Buyers
+function renderBuyers(){ const area = document.getElementById('buyersArea'); area.innerHTML=''; if(DATA.buyers.length===0){ area.innerHTML='<div class="empty">No buyers in demo</div>'; return; }
+  DATA.buyers.forEach(b=>{
+    const div = document.createElement('div'); div.className='card-compact'; div.innerHTML = `<div><div style="font-weight:700">${b.name} <span class="small-muted">(${b.type})</span></div><div class="small-muted">${b.location} • Needs ${b.crop} ${b.qty}q • ${b.quality}</div></div><div style="text-align:right"><div class="trust ${b.trust==='verified'?'verified':'unverified'}"><span class="dot"></span><span class="small-muted">${b.trust}</span></div><div style="margin-top:8px"><button class="btn" onclick="contactBuyer('${b.id}')">Make Offer</button></div></div>`;
+    area.appendChild(div);
+  });
+}
+
+function contactBuyer(id){ const b = DATA.buyers.find(x=>x.id===id); if(!b) return; showToast('Demo: contact '+b.name); }
+
+// Offers
+function renderOffers(){ const area = document.getElementById('offersArea'); area.innerHTML=''; if(DATA.offers.length===0){ area.innerHTML='<div class="empty">No offers</div>'; return; }
+  const tbl = document.createElement('table'); tbl.className='table'; tbl.innerHTML = `<thead><tr><th>Lot</th><th>Buyer</th><th>Price</th><th>Qty</th><th>Transport est</th><th>Net</th><th>Expiry</th><th>Action</th></tr></thead>`; const tbody = document.createElement('tbody'); DATA.offers.forEach(o=>{ const lot = DATA.lots.find(l=>l.id===o.lotId) || {crop:'Unknown'}; const transportEst = Math.round(o.transport_est/lot.qty||0); const net = (o.price - transportEst); const tr = document.createElement('tr'); tr.innerHTML = `<td>${lot.crop}</td><td>${o.buyer}</td><td>${formatRupee(o.price)}</td><td>${o.qty} q</td><td>${transportEst?formatRupee(transportEst):'—'}</td><td>${formatRupee(net)}</td><td>${o.expiry}</td><td>${o.status==='pending'?`<button class="btn" onclick="acceptOffer('${o.id}')">Accept</button> <button class="btn secondary" onclick="rejectOffer('${o.id}')">Reject</button>`:`<span class="small-muted">${o.status}</span>`}</td>`; tbody.appendChild(tr); }); tbl.appendChild(tbody); area.appendChild(tbl);
+}
+
+function acceptOffer(id){ const o = DATA.offers.find(x=>x.id===id); if(!o) return; o.status='accepted'; renderOffers(); renderCounts(); showToast('Offer accepted (demo). Transaction record not created in demo.'); }
+function rejectOffer(id){ const o = DATA.offers.find(x=>x.id===id); if(!o) return; o.status='rejected'; renderOffers(); renderCounts(); showToast('Offer rejected.'); }
+
+// Buyer portal
+function renderBuyerPortal(){ const area = document.getElementById('buyerPortalArea'); area.innerHTML=''; area.innerHTML = `<div class="card-list"><div class="card">Demo buyer requirement form is not a live transaction. Use this demo to see matching farmer lots.</div></div><div style="margin-top:12px">Matching farmer lots (demo):</div>`; const list = document.createElement('div'); list.className='card-list'; DATA.lots.forEach(l=>{ const d = document.createElement('div'); d.className='card-compact'; d.innerHTML = `<div><div style="font-weight:700">${l.crop} • ${l.qty}${l.unit}</div><div class="small-muted">${l.quality} • ${l.location}</div></div><div><button class="btn" onclick="showToast('Demo: buyer viewed lot')">Make Offer</button></div>`; list.appendChild(d); }); area.appendChild(list);
+}
+
+// FPO overview
+function renderFPO(){ const area = document.getElementById('fpoArea'); area.innerHTML=''; if(DATA.lots.length===0){ area.innerHTML='<div class="empty">No lots aggregated</div>'; return; }
+  const totalQty = DATA.lots.reduce((s,l)=>s + (Number(l.qty)||0),0);
+  const cropAgg = {}; DATA.lots.forEach(l=>{ cropAgg[l.crop]=(cropAgg[l.crop]||0)+Number(l.qty); });
+  const card = document.createElement('div'); card.className='card'; card.innerHTML = `<div><strong>Total lots</strong><div class="small-muted">${DATA.lots.length} lots • ${totalQty} q total</div></div><div style="margin-top:8px">${Object.keys(cropAgg).map(c=>`<div>${c}: ${cropAgg[c]} q</div>`).join('')}</div>`;
+  area.appendChild(card);
+}
+
+// Logistics
+function renderLogistics(){ const area = document.getElementById('logisticsArea'); area.innerHTML=''; if(DATA.markets.length===0){ area.innerHTML='<div class="empty">No logistics data</div>'; return; }
+  const list = document.createElement('div'); list.className='card-list'; DATA.markets.forEach(m=>{ const est = transportCostPerQ(m.transport_km); const d = document.createElement('div'); d.className='card-compact'; d.innerHTML = `<div><div style="font-weight:700">${m.market}</div><div class="small-muted">From ${m.buyer} • ${m.transport_km} km</div></div><div style="text-align:right">Transport est: ${formatRupee(est)}<div class="small-muted">per q</div></div>`; list.appendChild(d); }); area.appendChild(list);
+}
+
+// Sell Smart recommendation (simple scoring)
+function renderSell(){ const area = document.getElementById('sellExplain'); const scoreEl = document.getElementById('recScore'); const labelEl = document.getElementById('recLabel'); // choose best market for first lot
+  if(DATA.lots.length===0){ scoreEl.textContent='—'; labelEl.textContent='No lots to recommend for'; area.innerHTML='<div class="empty">Add a lot to get recommendations.</div>'; return; }
+  const lot = DATA.lots[0]; // simple demo uses first lot
+  // score markets
+  const scored = DATA.markets.filter(m=>m.crop===lot.crop).map(m=>{
+    const net = netRealizable(m.price, m.transport_km, m.other_costs);
+    // components: net price (weight 0.5), distance (weight 0.1, prefer closer), demand (0.15), quantity match (0.15), quality match (0.1), trust (0.1)
+    const netScore = (net/3000); // normalize
+    const distScore = Math.max(0, 1 - (m.transport_km/300));
+    const demandScore = Math.min(1, m.demand_q/100);
+    const qtyMatch = Math.min(1, lot.qty / m.min_qty);
+    const qualityMatch = (m.quality_required===lot.quality)?1:0.5;
+    const trust = (m.trust==='verified')?1:0.6;
+    const score = (netScore*0.5 + distScore*0.1 + demandScore*0.15 + Math.min(qtyMatch,1)*0.15 + qualityMatch*0.05 + trust*0.05);
+    return {...m, net, score};
+  }).sort((a,b)=>b.score-a.score);
+  if(scored.length===0){ scoreEl.textContent='—'; labelEl.textContent='No matching market for your lot'; area.innerHTML='<div class="empty">No matching market opportunities for this crop in demo data.</div>'; return; }
+  const best = scored[0]; scoreEl.textContent = Math.round(best.score*100)+"%"; labelEl.innerHTML = `<div><strong>Recommended:</strong> ${best.market} — ${best.buyer}</div><div class="small-muted">Net: ${formatRupee(best.net)} • Distance: ${best.transport_km} km • Demand: ${best.demand_q} q</div>`;
+  area.innerHTML = `<div style="margin-top:12px"><strong>Why this recommendation?</strong><ul><li>Highest estimated net realization: ${formatRupee(best.net)}</li><li>Demand is ${best.demand_q} q which matches your lot</li><li>Quality requirement: ${best.quality_required} matches your lot (${lot.quality})</li><li>Transport distance ${best.transport_km} km keeps transport cost lower</li></ul></div>`;
+}
+
+// Make offer action (demo)
+function makeOffer(marketId){ showToast('Demo: create offer to market '+marketId); }
+
+// Form handling
+const modal = document.getElementById('modal'); document.getElementById('addLotBtn').addEventListener('click', ()=>openModal()); document.getElementById('addLotBtn2').addEventListener('click', ()=>openModal()); document.getElementById('addLotQuick').addEventListener('click', ()=>openModal()); document.getElementById('viewMarketsBtn').addEventListener('click', ()=>setView('markets'));
+
+function openModal(){ modal.classList.add('show'); modal.setAttribute('aria-hidden','false'); document.getElementById('lotCrop').focus(); }
+function closeModal(){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); }
+
+document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+document.getElementById('cancelLot').addEventListener('click', closeModal);
+
+// Form submit
+document.getElementById('lotForm').addEventListener('submit', function(e){ e.preventDefault(); const crop = document.getElementById('lotCrop').value; const variety = document.getElementById('lotVariety').value; const qty = Number(document.getElementById('lotQty').value); const unit = document.getElementById('lotUnit').value; const harvest = document.getElementById('lotDate').value; const quality = document.getElementById('lotQuality').value; const location = document.getElementById('lotLocation').value; const minPrice = Number(document.getElementById('lotMinPrice').value) || undefined; const storage = document.getElementById('lotStorage').value;
+  // validation
+  if(!crop || !qty || !unit || !harvest || !quality){ showToast('Please fill required fields'); return; }
+  const id = 'L'+(Math.random().toString(36).substr(2,6)).toUpperCase(); DATA.lots.push({id,crop,variety,qty,unit,harvest,quality,location,minPrice,storage}); renderCounts(); renderLots(); renderBuyerPortal(); renderFPO(); renderSell(); closeModal(); showToast('Lot created (demo)'); });
+
+// Offer acceptance handled above
+
+// Search
+document.getElementById('globalSearch').addEventListener('input', function(e){ const q = e.target.value.toLowerCase(); // simple filter to highlight
+  // for demo, filter lots list
+  const filtered = DATA.lots.filter(l=>l.crop.toLowerCase().includes(q) || (l.location||'').toLowerCase().includes(q)); const area = document.getElementById('lotsList'); area.innerHTML=''; if(filtered.length===0){ area.innerHTML='<div class="empty">No matching lots</div>'; return; } filtered.forEach(l=>{ const div = document.createElement('div'); div.className='card-compact'; div.innerHTML = `<div><div style="font-weight:700">${l.crop}</div><div class="small-muted">${l.qty} ${l.unit}</div></div><div><button class="btn" onclick="viewLot('${l.id}')">View</button></div>`; area.appendChild(div); }); });
+
+// Attach other handlers
+function attachHandlers(){ document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ if(modal.classList.contains('show')) closeModal(); } }); // initial view
+}
+
+// Init
+init();
+
 </script>
 </body>
 </html>
