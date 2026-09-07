@@ -1,60 +1,50 @@
-# FarmIntel — Smart Market Intelligence for Farmers
+# FarmIntel
 
-FarmIntel is a prototype for **SIH26132: Strengthening market linkages and price discovery for farmers**.
+FarmIntel is a clean full-stack prototype for **SIH26132 — Strengthening market linkages and price discovery for farmers**.
 
-## Core idea
+## Architecture
 
-FarmIntel helps farmers compare selling opportunities using more than the headline price. The prototype considers indicative offered price, estimated logistics cost, demand, quantity and quality fit to surface a **Net Realizable Price** and an explainable Sell Smart recommendation.
+- FastAPI serves both the API and the web application.
+- Vanilla HTML/CSS/JavaScript frontend with no build step.
+- Railway is the production deployment target.
+- A deterministic `railway.toml` defines the build, start command and health check.
 
-## Prototype modules
+## API
 
-- Farmer Dashboard
-- My Crop Lots
-- Market Intelligence
-- Sell Smart recommendation
-- Buyer Matches
-- Offers
-- Buyer Portal
-- FPO aggregation view
-- Logistics view
-- Add Crop Lot with validation
+- `GET /health` — deployment health check
+- `GET /api/summary` — dashboard summary
+- `GET /api/crops` — supported crops
+- `GET /api/markets` — indicative market opportunities
+- `GET /api/lots` / `POST /api/lots` — demo crop-lot workflow
+- `GET /api/buyers` — demo buyer matches
+- `GET /api/offers` — demo offers
+- `POST /api/crop-advice` — rule-based crop advice
+- `POST /api/chat` — rule-based farm assistant
 
-## Important demo limitation
-
-This repository contains a demonstration prototype with mock data. It does not claim live government market feeds, real buyer verification, guaranteed price forecasts, certified quality grading, real payments, or production logistics integrations.
-
-## Local run
-
-Install dependencies and start the static server:
+## Run locally
 
 ```bash
-npm install
-npm run start
+python -m venv .venv
+# Windows: .venv\\Scripts\\activate
+# macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
 ```
 
-Open `http://127.0.0.1:8080/`.
-
-For Playwright smoke tests:
-
-```bash
-npx playwright install
-npm test
-```
+Open `http://127.0.0.1:8000/`.
 
 ## Deployment
 
-The repository contains a GitHub Actions Pages workflow at `.github/workflows/deploy-pages.yml`. It is configured to deploy the static site when changes reach `main`, subject to GitHub Pages being enabled for the repository.
+Railway can deploy directly from the repository root. The repository intentionally keeps `main.py`, `requirements.txt`, `index.html` and `railway.toml` at the root so the platform does not need a nested working directory or implicit start-command detection.
 
-## Technology
+Start command:
 
-- Semantic HTML
-- CSS
-- Vanilla JavaScript
-- GitHub Pages
-- Playwright for smoke testing
+```text
+uvicorn main:app --host 0.0.0.0 --port $PORT
+```
 
-## SIH
+Health check: `/health`.
 
-**Problem ID:** SIH26132  
-**Theme:** Agriculture, FoodTech & Rural Development  
-**Category:** Software
+## Demo limitations
+
+The application uses deterministic in-memory demo data. It does not claim live government feeds, verified buyer identities, guaranteed price forecasts, certified grading, real payments, or production logistics integrations.
