@@ -1,0 +1,1 @@
+{"version":2,"buildCommand":"node scripts/inject-api.js","builds":[{"src":"api/index.py","use":"@vercel/python"}],"routes":[{"src":"/api/(.*)","dest":"/api/index.py"},{"src":"/(.*)","dest":"/$1"}]}
