@@ -1,36 +1,26 @@
-name: Deploy FarmIntel to GitHub Pages
+name: FarmIntel CI
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches: [main, farmintel-backend-build]
+  pull_request:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          enablement: true
-      - name: Upload site
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Compile application
+        run: python -m py_compile main.py
+      - name: Validate FastAPI import
+        run: python -c "from main import app; print(app.title, app.version)"
